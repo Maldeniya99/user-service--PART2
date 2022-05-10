@@ -40,6 +40,7 @@ public class User {
 						 
 						 
 						 }
+		//Read users			
 									
 				public String readUsers(){
 					
@@ -92,9 +93,12 @@ public class User {
 						  output += "<td>" + email + "</td>";
 						  output += "<td>" + password + "</td>";
 						// buttons
-						  output += "<td><input name='btnUpdate'type='button' value='Update'class='btnUpdate btn btn-secondary'></td>"+ "<td><input name='btnRemove'type='button' value='Remove'class='btnRemove btn btn-danger'data-userid='"
-								  + userID + "'>" + "</td></tr>"; 
-				
+						 // output += "<td><input name='btnUpdate'type='button' value='Update'class='btnUpdate btn btn-secondary'></td>"+ "<td><input name='btnRemove'type='button' value='Remove'class='btnRemove btn btn-danger'data-userid='"
+								//  + userID + "'>" + "</td></tr>"; 
+						  output += "<td><input name='btnUpdate' type='button' value='Update' "
+								  + "class='btnUpdate btn btn-secondary' data-userid='" + userID + "'></td>"
+								  + "<td><input name='btnRemove' type='button' value='Remove' "
+								  + "class='btnRemove btn btn-danger' data-userid='" + userID + "'></td></tr>";
 						 }
 						 
 						

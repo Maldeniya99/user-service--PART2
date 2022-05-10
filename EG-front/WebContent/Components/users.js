@@ -64,9 +64,9 @@ if (status == "success")
  $("#alertError").text("Unknown error while saving..");
  $("#alertError").show();
  }
- 14
+ 
  $("#hidUserIDSave").val("");
- $("#formItem")[0].reset();
+ $("#formUser")[0].reset();
 }
 
 
@@ -74,7 +74,8 @@ if (status == "success")
 $(document).on("click", ".btnUpdate", function(event)
 {
 
- $("#hidUserIDSave").val($(this).closest("tr").find('#hidUserIDUpdate').val());
+$("#hidUserIDSave").val($(this).data("userid")); 
+
  $("#userName").val($(this).closest("tr").find('td:eq(0)').text());
  $("#name").val($(this).closest("tr").find('td:eq(1)').text());
  $("#phone").val($(this).closest("tr").find('td:eq(2)').text());
