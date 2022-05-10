@@ -8,117 +8,117 @@ import java.sql.Statement;
 
 public class User {
 
-
-	private Connection connect()
-	 {
-		
-	 Connection con = null;
-	 
-	 try
-	 
-		 {
-			 
-		 Class.forName("com.mysql.jdbc.Driver");
-		
-		 //Provide the correct details: DBServer/DBName, username, password
-		 
-		 con = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/electrogrid", "root", "");
-		 
-		 }
-	 
-		 catch (Exception e)
-				 
-				 {
+//Connect to the DB		
+					private Connection connect()
+					 {
+						
+					 Connection con = null;
 					 
-					 e.printStackTrace();
+					 try
+					 
+						 {
+							 
+						 Class.forName("com.mysql.jdbc.Driver");
+						
+						 //Provide the correct details: DBServer/DBName, username, password
+						 
+						 con = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/electrogrid", "root", "");
+						 
+						 }
+					 
+						 catch (Exception e)
+								 
+								 {
+									 
+									 e.printStackTrace();
+								 
+								 
+								 }
+					 
+					 
+						 return con;
+						 
+						 
+						 }
+									
+				public String readUsers(){
+					
+					
+					
+					
+				 String output = "";
 				 
+				 try
+						 {
+					 
+						 Connection con = connect();
+						 
+						 if (con == null)
+							 
+						 {return "Error while connecting to the database for reading."; }
+						 
+						 // Prepare the html table to be displayed
+						 
+						 output = "<table border='1'><tr><th>user Name</th><th>Name</th>" +"<th>Phone</th>" +"<th>Email</th>" +"<th>Password</th>" +"<th>Update</th><th>Remove</th></tr>";
+						
+						 String query = "select * from users";
+						 
+						 
+						 Statement stmt = con.createStatement();
+						 
+						 
+						 ResultSet rs = stmt.executeQuery(query);
+						 
+						 
+						 // iterate through the rows in the result set
+						 
+						 while (rs.next())
+							 
+						 {
+						 String userID = Integer.toString(rs.getInt("userID"));
+						 String userName = rs.getString("userName");
+						 String name = rs.getString("name");
+						 String phone = rs.getString("phone");
+						 String email = rs.getString("email");
+						 String password = rs.getString("password");
+						 
+						
+						 
+						// Add into the html table
+						 output += "<tr><td><input id='hidUserIDUpdate'name='hidUserIDUpdate'type='hidden' value='" + userID
+						  + "'>" + userName + "</td>";
+						  output += "<td>" + name + "</td>";
+						  output += "<td>" + phone + "</td>";
+						  output += "<td>" + email + "</td>";
+						  output += "<td>" + password + "</td>";
+						// buttons
+						  output += "<td><input name='btnUpdate'type='button' value='Update'class='btnUpdate btn btn-secondary'></td>"+ "<td><input name='btnRemove'type='button' value='Remove'class='btnRemove btn btn-danger'data-userid='"
+								  + userID + "'>" + "</td></tr>"; 
+				
+						 }
+						 
+						
+						 con.close();
+						 
+						 // Complete the html table
+						
+						 output += "</table>";
+						 
+						 }
+						 catch (Exception e)
 				 
-				 }
-	 
-	 
-		 return con;
-		 
-		 
-		 }
-	
-public String readUsers(){
-	
-	
-	
-	
- String output = "";
- 
- try
-		 {
-	 
-		 Connection con = connect();
-		 
-		 if (con == null)
-			 
-		 {return "Error while connecting to the database for reading."; }
-		 
-		 // Prepare the html table to be displayed
-		 
-		 output = "<table border='1'><tr><th>user Name</th><th>Name</th>" +"<th>Phone</th>" +"<th>Email</th>" +"<th>Password</th>" +"<th>Update</th><th>Remove</th></tr>";
-		
-		 String query = "select * from users";
-		 
-		 
-		 Statement stmt = con.createStatement();
-		 
-		 
-		 ResultSet rs = stmt.executeQuery(query);
-		 
-		 
-		 // iterate through the rows in the result set
-		 
-		 while (rs.next())
-			 
-		 {
-		 String userID = Integer.toString(rs.getInt("userID"));
-		 String userName = rs.getString("userName");
-		 String name = rs.getString("name");
-		 String phone = rs.getString("phone");
-		 String email = rs.getString("email");
-		 String password = rs.getString("password");
-		 
-		
-		 
-		// Add into the html table
-		 output += "<tr><td><input id='hidUserIDUpdate'name='hidUserIDUpdate'type='hidden' value='" + userID
-		  + "'>" + userName + "</td>";
-		  output += "<td>" + name + "</td>";
-		  output += "<td>" + phone + "</td>";
-		  output += "<td>" + email + "</td>";
-		  output += "<td>" + password + "</td>";
-		// buttons
-		  output += "<td><input name='btnUpdate'type='button' value='Update'class='btnUpdate btn btn-secondary'></td>"+ "<td><input name='btnRemove'type='button' value='Remove'class='btnRemove btn btn-danger'data-userid='"
-				  + userID + "'>" + "</td></tr>"; 
-
-		 }
-		 
-		
-		 con.close();
-		 
-		 // Complete the html table
-		
-		 output += "</table>";
-		 
-		 }
-		 catch (Exception e)
- 
-			 {
-			 
-			 output = "Error while reading the users.";
-			 
-			 System.err.println(e.getMessage());
-			 
-			 
-			 }
-				 return output;
-				 
-				 
-			}
+							 {
+							 
+							 output = "Error while reading the users.";
+							 
+							 System.err.println(e.getMessage());
+							 
+							 
+							 }
+								 return output;
+								 
+								 
+							}
 
 //insert users to the system
 	
@@ -170,7 +170,7 @@ public String readUsers(){
 						return output;
 						}
 			
-			
+		//Update  an User	
 			
 			 public String updateUser(String userID, String userName, String name, String phone, String email,String password){
 				 
@@ -217,7 +217,7 @@ public String readUsers(){
 						 return output;
 						 } 
 			 
-			 
+	//Delete an User		 
 			 
 				public String deleteUser(String userID){
 					
