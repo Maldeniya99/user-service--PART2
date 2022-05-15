@@ -1,6 +1,7 @@
 package com;
 
 import java.sql.Connection;
+
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -14,28 +15,28 @@ public class User {
 						
 					 Connection con = null;
 					 
-					 try
-					 
-						 {
+							 try
 							 
-						 Class.forName("com.mysql.jdbc.Driver");
-						
-						 //Provide the correct details: DBServer/DBName, username, password
-						 
-						 con = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/electrogrid", "root", "");
-						 
-						 }
-					 
-						 catch (Exception e)
-								 
 								 {
 									 
-									 e.printStackTrace();
-								 
+									 Class.forName("com.mysql.jdbc.Driver");
+									
+									 //Provide the correct details: DBServer/DBName, username, password
+									 
+									 con = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/electrogrid", "root", "");
 								 
 								 }
-					 
-					 
+							 
+								 catch (Exception e)
+										 
+										 {
+											 
+											 e.printStackTrace();
+										 
+										 
+										 }
+							 
+							 
 						 return con;
 						 
 						 
@@ -56,7 +57,9 @@ public class User {
 						 
 						 if (con == null)
 							 
-						 {return "Error while connecting to the database for reading."; }
+						 {
+							 return "Error while connecting to the database for reading."; 
+							 }
 						 
 						 // Prepare the html table to be displayed
 						 
@@ -76,29 +79,35 @@ public class User {
 						 while (rs.next())
 							 
 						 {
-						 String userID = Integer.toString(rs.getInt("userID"));
-						 String userName = rs.getString("userName");
-						 String name = rs.getString("name");
-						 String phone = rs.getString("phone");
-						 String email = rs.getString("email");
-						 String password = rs.getString("password");
-						 
-						
-						 
-						// Add into the html table
-						 output += "<tr><td><input id='hidUserIDUpdate'name='hidUserIDUpdate'type='hidden' value='" + userID
-						  + "'>" + userName + "</td>";
-						  output += "<td>" + name + "</td>";
-						  output += "<td>" + phone + "</td>";
-						  output += "<td>" + email + "</td>";
-						  output += "<td>" + password + "</td>";
-						// buttons
-						 // output += "<td><input name='btnUpdate'type='button' value='Update'class='btnUpdate btn btn-secondary'></td>"+ "<td><input name='btnRemove'type='button' value='Remove'class='btnRemove btn btn-danger'data-userid='"
-								//  + userID + "'>" + "</td></tr>"; 
-						  output += "<td><input name='btnUpdate' type='button' value='Update' "
-								  + "class='btnUpdate btn btn-secondary' data-userid='" + userID + "'></td>"
-								  + "<td><input name='btnRemove' type='button' value='Remove' "
-								  + "class='btnRemove btn btn-danger' data-userid='" + userID + "'></td></tr>";
+							 String userID = Integer.toString(rs.getInt("userID"));
+							 
+							 String userName = rs.getString("userName");
+							 
+							 String name = rs.getString("name");
+							 
+							 String phone = rs.getString("phone");
+							 
+							 String email = rs.getString("email");
+							 
+							 String password = rs.getString("password");
+							 
+							
+							 
+							// Add into the html table
+							 output += "<tr><td><input id='hidUserIDUpdate'name='hidUserIDUpdate'type='hidden' value='" + userID + "'>" + userName + "</td>";
+							  output += "<td>" + name + "</td>";
+							  
+							  output += "<td>" + phone + "</td>";
+							  
+							  output += "<td>" + email + "</td>";
+							  
+							  output += "<td>" + password + "</td>";
+							  
+							// buttons
+							  
+		
+							  
+							  output += "<td><input name='btnUpdate' type='button' value='Update' "+ "class='btnUpdate btn btn-secondary' data-userid='" + userID + "'></td>" + "<td><input name='btnRemove' type='button' value='Remove' " + "class='btnRemove btn btn-danger' data-userid='" + userID + "'></td></tr>";
 						 }
 						 
 						
@@ -139,7 +148,10 @@ public class User {
 						 
 						 if (con == null)
 							 
-						 {return "Error while connecting to the database for inserting!"; }
+						 {
+							 return "Error while connecting to the database for inserting!"; 
+							 
+							 }
 						 
 						 // create a prepared statement
 						 
@@ -150,10 +162,15 @@ public class User {
 						 // binding values
 						 
 						 preparedStmt.setInt(1, 0);
+						 
 						 preparedStmt.setString(2, userName);
+						 
 						 preparedStmt.setString(3, name);
+						 
 						 preparedStmt.setString(4, phone);
+						 
 						 preparedStmt.setString(5, email);
+						 
 						 preparedStmt.setString(6, password);
 						 
 						 // execute the statement
@@ -162,14 +179,15 @@ public class User {
 						 
 						 con.close();
 						 String newUsers = readUsers();
-						 output = "{\"status\":\"success\", \"data\": \"" +
-								 newUsers + "\"}"; 
+						 output = "{\"status\":\"success\", \"data\": \"" +newUsers + "\"}"; 
 
 						 }
 						catch (Exception e)
 						{
 							 output = "{\"status\":\"error\", \"data\": \"Error while inserting the user.\"}";
+							 
 							 System.err.println(e.getMessage());
+							 
 							 }
 						return output;
 						}
@@ -181,44 +199,58 @@ public class User {
 				 
 				 
 				   String output = "";
-				try
-					{
-						Connection con = connect();
-						
-						if (con == null)
+				   
+					try
+						{
+							Connection con = connect();
 							
-						{return "Error while connecting to the database for updating."; }
-						
-						// create a prepared statement
-						
-						String query = "UPDATE users SET userName=?,name=?,phone=?,email=?,password=?WHERE userID=?";
-						
-						PreparedStatement preparedStmt = con.prepareStatement(query);
-						
-						// binding values
-						
-						preparedStmt.setString(1, userName);
-						preparedStmt.setString(2, name);
-						preparedStmt.setString(3, phone);
-						preparedStmt.setString(4, email);
-						preparedStmt.setString(5, password);
-						preparedStmt.setInt(6, Integer.parseInt(userID));
-						
-						// execute the statement
-						
-						preparedStmt.execute();
-						
-						con.close();
-						
-						 String newUsers = readUsers();
-						 output = "{\"status\":\"success\", \"data\": \"" + newUsers + "\"}";
-						 }
-						 catch (Exception e)
-						 {
-							 output = "{\"status\":\"error\", \"data\":\"Error while updating an User.\"}";
-							 System.err.println(e.getMessage());
+							if (con == null)
+								
+							{
+								return "Error while connecting to the database for updating.";
+								
+								}
+							
+							// create a prepared statement
+							
+							String query = "UPDATE users SET userName=?,name=?,phone=?,email=?,password=?WHERE userID=?";
+							
+							PreparedStatement preparedStmt = con.prepareStatement(query);
+							
+							// binding values
+							
+							preparedStmt.setString(1, userName);
+							
+							preparedStmt.setString(2, name);
+							
+							preparedStmt.setString(3, phone);
+							
+							preparedStmt.setString(4, email);
+							
+							preparedStmt.setString(5, password);
+							
+							preparedStmt.setInt(6, Integer.parseInt(userID));
+							
+							// execute the statement
+							
+							preparedStmt.execute();
+							
+							con.close();
+							
+							 String newUsers = readUsers();
+							 
+							 output = "{\"status\":\"success\", \"data\": \"" + newUsers + "\"}";
+							 
 							 }
-						 return output;
+							 catch (Exception e)
+							 {
+								 output = "{\"status\":\"error\", \"data\":\"Error while updating an User.\"}";
+								 
+								 System.err.println(e.getMessage());
+								 
+								 }
+					
+					 return output;
 						 } 
 			 
 	//Delete an User		 
@@ -228,14 +260,17 @@ public class User {
 					
 				String output = "";
 				
-				try
+			  	  try
 				
 						{
 							Connection con = connect();
 							
 							if (con == null)
 								
-							{return "Error while connecting to the database for deleting."; }
+							{
+								return "Error while connecting to the database for deleting.";
+								
+								}
 							
 							// create a prepared statement
 							
@@ -254,15 +289,21 @@ public class User {
 							con.close();
 							
 							String newUsers = readUsers();
-							 output = "{\"status\":\"success\", \"data\": \"" +
-							 newUsers + "\"}";
+							
+							 output = "{\"status\":\"success\", \"data\": \"" + newUsers + "\"}";
+							 
 							 }
 							catch (Exception e)
 							{
 								 output = "{\"status\":\"error\", \"data\":\"Error while deleting an User.\"}";
+								 
 								 System.err.println(e.getMessage());
-								 }
+								 
+							 }
+			  	  
 							return output;
+							
+							
 							}
 				
 				
